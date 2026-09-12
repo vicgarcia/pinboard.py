@@ -567,7 +567,11 @@ def normalize_single_tag(value: str) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
-    args = parser.parse_args(argv)
+    arguments = sys.argv[1:] if argv is None else argv
+    if not arguments:
+        parser.print_help()
+        return 0
+    args = parser.parse_args(arguments)
     token = args.token or os.environ.get("PINBOARD_TOKEN")
     if not token:
         print(
